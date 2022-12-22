@@ -19,7 +19,6 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class BeerViewModelShould {
 
-
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
@@ -43,7 +42,6 @@ class BeerViewModelShould {
         Assert.assertEquals(true, viewModel.beerList.value.isLoading)
     }
 
-
     @Test
     fun validateSuccessStateDataIsStoredOnBeerList() = runTest {
         whenever(repo.getBeerList()).thenReturn(
@@ -56,7 +54,7 @@ class BeerViewModelShould {
     }
 
     @Test
-    fun validateErrorStateWhenWeReciveErrorFromRepository() = runTest {
+    fun validateErrorStateWhenWeReceiveErrorFromRepository() = runTest {
         whenever(repo.getBeerList()).thenReturn(
             flow {
                 emit(Resource.Error("Something went wrong"))
@@ -65,6 +63,5 @@ class BeerViewModelShould {
         mainCoroutineRule.dispatcher.scheduler.advanceUntilIdle()
         Assert.assertEquals("Something went wrong", viewModel.beerList.value.error)
     }
-
 
 }
