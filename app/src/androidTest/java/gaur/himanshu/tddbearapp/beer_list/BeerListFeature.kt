@@ -14,26 +14,21 @@ import org.junit.Test
 
 class BeerListFeature  {
 
-
     @get:Rule
     val composeRule= createAndroidComposeRule<MainActivity>()
-
 
     @Before
     fun setup(){
         IdlingRegistry.getInstance().register(clientResource)
     }
 
-
     @After
     fun tearDown(){
         IdlingRegistry.getInstance().unregister(clientResource)
     }
 
-
     @Test
     fun validateTopAppBarBeerDetailsIsVisible(){
-
         composeRule.apply {
             onNodeWithText("Beer List").assertIsDisplayed()
         }
@@ -45,28 +40,5 @@ class BeerListFeature  {
             onNodeWithTag("list").assertIsDisplayed()
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
