@@ -1,9 +1,7 @@
 package gaur.himanshu.tddbearapp.beer_list
 
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.IdlingRegistry
 import gaur.himanshu.tddbearapp.MainActivity
 import gaur.himanshu.tddbearapp.di.clientResource
@@ -48,5 +46,14 @@ class BeerListFeature  {
             onNodeWithTag("progress").assertIsDisplayed()
         }
     }
+
+    @Test
+    fun validateNavigationFromBeerScreenTOBeerDetailsScreen(){
+        composeRule.apply {
+            onNodeWithTag("list").onChildAt(0).assertIsDisplayed().performClick()
+            onNodeWithText("Beer Details").assertIsDisplayed()
+        }
+    }
+
 
 }

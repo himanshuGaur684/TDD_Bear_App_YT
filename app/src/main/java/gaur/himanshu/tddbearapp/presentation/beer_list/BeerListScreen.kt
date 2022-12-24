@@ -1,6 +1,7 @@
 package gaur.himanshu.tddbearapp.presentation.beer_list
 
 import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,28 +15,29 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import gaur.himanshu.tddbearapp.data.model.BeerResponseItem
+import gaur.himanshu.tddbearapp.navigation.NavigationItem
 
 @Composable
-fun BeerListScreen(viewModel: BeerViewModel = hiltViewModel()) {
+fun BeerListScreen(navController: NavController,viewModel: BeerViewModel = hiltViewModel()) {
 
     val beerList = viewModel.beerList.value
 
     Scaffold(topBar = { TopAppBar(title = { Text(text = "Beer List") }) }) {
-
         Log.d("TAG", "BeerListScreen: ${it}")
-
-        if(beerList.isLoading){
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
+        if (beerList.isLoading) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(modifier = Modifier.testTag("progress"))
             }
         }
-
         beerList.data?.let {
             LazyColumn(modifier = Modifier.testTag("list")) {
                 items(it) {
-                    BeerListItem(it)
+                    BeerListItem(it){
+                        navController.navigate(NavigationItem.BeerDetails.route+"/$it")
+                    }
                 }
             }
         }
@@ -43,9 +45,13 @@ fun BeerListScreen(viewModel: BeerViewModel = hiltViewModel()) {
 }
 
 @Composable
-fun BeerListItem(beer: BeerResponseItem) {
+fun BeerListItem(beer: BeerResponseItem, onClick: (String) -> Unit) {
 
-    Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = Modifier
+        .padding(8.dp)
+        .clickable {
+            onClick.invoke(beer.id.toString())
+        }, verticalAlignment = Alignment.CenterVertically) {
 
         AsyncImage(
             model = beer.image_url, contentDescription = null, modifier = Modifier
