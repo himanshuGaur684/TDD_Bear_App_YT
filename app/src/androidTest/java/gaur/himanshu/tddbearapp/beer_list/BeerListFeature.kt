@@ -41,4 +41,12 @@ class BeerListFeature  {
         }
     }
 
+    @Test
+    fun validateProgressBarIsVisible(){
+        IdlingRegistry.getInstance().unregister(clientResource)
+        composeRule.apply{
+            onNodeWithTag("progress").assertIsDisplayed()
+        }
+    }
+
 }
